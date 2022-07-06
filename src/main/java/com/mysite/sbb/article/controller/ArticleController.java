@@ -31,6 +31,21 @@ public class ArticleController {
         Optional<Article> article = articleRepository.findById(id);
         return article.orElse(null);
     }
+    @RequestMapping("/doModify")
+    @ResponseBody
+    public Article showModify(long id, String title, String body){
+        //get -> 수정
+        Article article = articleRepository.findById(id).get();
+        if(title != null){
+            article.setTitle(title);
+        }
+        if(body != null){
+            article.setBody(body);
+        }
+        // 수정된 정보를 db로 저장
+        articleRepository.save(article);
+        return article;
+    }
 
 
 }
