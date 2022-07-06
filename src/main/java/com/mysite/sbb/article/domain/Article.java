@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
     private String title;
