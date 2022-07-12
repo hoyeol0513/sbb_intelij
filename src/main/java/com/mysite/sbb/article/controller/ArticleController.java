@@ -49,6 +49,11 @@ public class ArticleController {
     @RequestMapping("/doDelete")
     @ResponseBody
     public String doDelete(long id){
+        Optional<Article> article = articleRepository.findById(id);
+
+        if(articleRepository.existsById(id) == false) {
+            return "이미 삭제되었거나 없는 게시물입니다.";
+        }
         articleRepository.deleteById(id); //id로 찾아서 삭제
         return "%d번 게시물이 삭제되었습니다.".formatted(id);
     }
