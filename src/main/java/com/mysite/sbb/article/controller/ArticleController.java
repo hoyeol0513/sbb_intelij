@@ -15,23 +15,33 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/usr/article")
 public class ArticleController {
+    //crud (create(추가), read(조회), update(수정), delete(삭제)) : 기본적인 게시물 프로젝트의 기능
     @Autowired
     private ArticleRepository articleRepository;
 
+    //article 전체 조회(read)
     @RequestMapping("/list")
     @ResponseBody
     // 리스트 타입은 리스트 전체
     public List<Article> list(){
         return articleRepository.findAll();
     }
-    @RequestMapping("/detail")
+
+    //article 단건 조회()
+    @RequestMapping("/list/")
     @ResponseBody
-    // optional 타입은 리스트 안에서 하나만
-    // localhost에서 아이디를 물어볼거면 " ?변수명=변수값 "
-    public Article showArticleDetail(@RequestParam long id){
-        Optional<Article> article = articleRepository.findById(id);
-        return article.orElse(null);
+    public List<Article> showArticleBy(String title, String body){
+        if(title != null && body != null){
+
+        }
+        else if(title != null && body == null){
+
+        }
+        else if(title == null && body != null){
+
+        }
     }
+    //article 수정 (update)
     @RequestMapping("/doModify")
     @ResponseBody
     public Article showModify(long id, String title, String body){
@@ -48,6 +58,8 @@ public class ArticleController {
         articleRepository.save(article);
         return article;
     }
+
+    //article 삭제(delete)
     @RequestMapping("/doDelete")
     @ResponseBody
     public String doDelete(long id){
