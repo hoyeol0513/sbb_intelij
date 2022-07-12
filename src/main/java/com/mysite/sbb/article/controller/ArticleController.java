@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,7 @@ public class ArticleController {
         if(body != null){
             article.setBody(body); //불러온 데이터 수정
         }
+        article.setUpdateDate(LocalDateTime.now()); //수정 날짜 갱신
         // 수정된 정보를 db로 저장
         articleRepository.save(article);
         return article;
@@ -52,10 +54,16 @@ public class ArticleController {
         Optional<Article> article = articleRepository.findById(id);
 
         if(articleRepository.existsById(id) == false) {
-            return "이미 삭제되었거나 없는 게시물입니다.";
+            return "%d 번 게시물은 이미 삭제되었거나 없는 게시물입니다.".formatted(id);
         }
         articleRepository.deleteById(id); //id로 찾아서 삭제
         return "%d번 게시물이 삭제되었습니다.".formatted(id);
     }
 
+    @RequestMapping("/findByTitle")
+    @ResponseBody
+    public List<Article> findArticleByTitle(String title){
+        List<Article> articles = articleRepository.findByTitle(title);
+        return articles;
+    }
 }
